@@ -1,0 +1,20 @@
+{
+  "name": "Producer Toolbox",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "permissions": [
+    "sidePanel",
+    "storage",
+    "audioCapture"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "action": {
+    "default_title": "Open Producer Toolbox"
+  }
+}
