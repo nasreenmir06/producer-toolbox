@@ -134,7 +134,7 @@ function bufferToWav(abuffer) {
     offset = 0,
     pos = 0;
 
-  // Write WAV container header
+  // write WAV container header
   setUint32(0x46464952);                         // "RIFF"
   setUint32(length - 8);                         // file length - 8
   setUint32(0x45564157);                         // "WAVE"
@@ -149,7 +149,7 @@ function bufferToWav(abuffer) {
   setUint32(0x61746164);                         // "data" chunk
   setUint32(length - pos - 4);                   // chunk length
 
-  // Write interleaved samples
+  // write interleaved samples
   for (i = 0; i < abuffer.numberOfChannels; i++) channels.push(abuffer.getChannelData(i));
   while (pos < length) {
     for (i = 0; i < numOfChan; i++) {

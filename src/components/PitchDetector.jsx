@@ -5,7 +5,7 @@ import { PitchDetector } from "pitchy";
 
 export default function PitchDetectorComponent() {
     const [isRecording, setIsRecording] = useState(false);
-    const [currentNote, setCurrentNote] = useState(null);
+    const [pitchData, setPitchData] = useState({ note: null, hz: null });
 
     const streamRef = useRef(null);
     const audioContextRef = useRef(null);
@@ -64,7 +64,7 @@ export default function PitchDetectorComponent() {
 
                 // only update state if the last 5 frames are all the same note (improve confidnence in displayed note)
                 if (noteHistory.every(n => n === note)) {
-                    setCurrentNote(note);
+                    setPitchData({ note: note, hz: pitch.toFixed(1) });
                 }
             } else {
                 // clear history if clarity drops
@@ -106,7 +106,9 @@ export default function PitchDetectorComponent() {
           </Button>
         )}
       </Group>
-      <Text>{currentNote}</Text>
+      <Text size="xl" fw={700}>
+        {pitchData.note ? `${pitchData.note} (${pitchData.hz} Hz)` : "Waiting for audio..."}
+      </Text>
 
       {isRecording && <Badge color="red" variant="dot" mb="sm">Recording High-Res Audio...</Badge>}
     </div>

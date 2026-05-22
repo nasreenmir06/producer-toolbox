@@ -5,6 +5,8 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import AudioRecorder from './components/AudioRecorder';
 import PitchDetectorComponent from './components/PitchDetector';
+import TempoTapper from './components/TempoTapper';
+import CentsCalculator from './components/CentsCalculator';
 import './App.css'
 
 // COMPONENT DEFINITOINS
@@ -98,10 +100,12 @@ function App() {
 
           <ToolPanel value="tempoTapper" title="Tempo Tapper">
             <Text size="sm">Tap along to a beat and we'll give you the BPM</Text>
+            <TempoTapper/>
           </ToolPanel>
 
           <ToolPanel value="centsCalculator" title="Cents Calculator">
             <Text size="sm">Calculate the cents between two notes/frequencies</Text>
+            <CentsCalculator/>
           </ToolPanel>
 
           <ToolPanel value="keyBPMAnalyzer" title="Key & BPM Analyzer">
