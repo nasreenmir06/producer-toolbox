@@ -18,7 +18,8 @@
     "pitchy": "^4.1.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "realtime-bpm-analyzer": "^5.0.13"
+    "realtime-bpm-analyzer": "^5.0.13",
+    "web-audio-beat-detector": "^8.2.36"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

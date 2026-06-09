@@ -1,11 +1,12 @@
 {
+  "manifest_version": 3,
   "name": "Producer Toolbox",
   "version": "1.0.0",
-  "manifest_version": 3,
   "permissions": [
     "sidePanel",
     "storage",
-    "audioCapture"
+    "audioCapture",
+    "offscreen"
   ],
   "background": {
     "service_worker": "background.js",
