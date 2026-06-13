@@ -8,6 +8,7 @@ import PitchDetectorComponent from './components/PitchDetector';
 import TempoTapper from './components/TempoTapper';
 import CentsCalculator from './components/CentsCalculator';
 import BPMDetector from './components/BPMDetector';
+import StripSilence from './components/StripSilence';
 import './App.css'
 
 // COMPONENT DEFINITOINS
@@ -42,6 +43,7 @@ function App() {
     centsCalculator: true,
     BPMAnalyzer: true,
     camelotWheel: true,
+    stripSilence: true,
     settings: true
   })
 
@@ -85,6 +87,7 @@ function App() {
             {tabsVisible.centsCalculator && <Tabs.Tab value="centsCalculator">Cents Calculator</Tabs.Tab>}
             {tabsVisible.BPMAnalyzer && <Tabs.Tab value="BPMAnalyzer">BPM Analyzer</Tabs.Tab>}
             {tabsVisible.camelotWheel && <Tabs.Tab value="camelotWheel">Camelot Wheel</Tabs.Tab>}
+            {tabsVisible.stripSilence && <Tabs.Tab value="stripSilence">Strip Silence</Tabs.Tab>}
             {tabsVisible.settings && <Tabs.Tab value="settings">Settings</Tabs.Tab>}
           </Tabs.List>
 
@@ -118,6 +121,11 @@ function App() {
             <Text size="sm">See the camelot wheel</Text>
           </ToolPanel>
 
+          <ToolPanel value="stripSilence" title="Strip Silence">
+            <Text size="sm" mb="sm">Remove silence from an audio file</Text>
+            <StripSilence/>
+          </ToolPanel>
+
           {/* SETTINGS CHECKBOX SETUP */}
           <ToolPanel value="settings" title="Toolbox Settings">
             <TabCheckbox label="Show Pitch Detector" value="pitchDetector" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
@@ -126,6 +134,7 @@ function App() {
             <TabCheckbox label="Show Cents Calculator" value="centsCalculator" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
             <TabCheckbox label="Show BPM Analyzer" value="BPMAnalyzer" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
             <TabCheckbox label="Show Camelot Wheel" value="camelotWheel" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
+            <TabCheckbox label="Show Strip Silence" value="stripSilence" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
           </ToolPanel>
         </Tabs>
       </section>

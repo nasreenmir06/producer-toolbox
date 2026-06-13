@@ -19,9 +19,8 @@ chrome.runtime.onConnect.addListener((port) => {
 
 // relay messages between UI and offscreen
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.target === 'offscreen-analyzer') {
+    if (message.target === 'offscreen-bpm-analyzer' || message.target === 'offscreen-strip-silence') {
         if (offscreenPort) {
-            console.log('Relaying analysis request to offscreen via port');
             offscreenPort.postMessage(message);
         } else {
             console.error('No offscreen port available');

@@ -124,7 +124,8 @@ export default function AudioRecorder() {
 // full disclaimer i did not write this myself,
 // i found it online and am using it for my project 
 // because i myself am not educated enough on how 
-// software records audio to write this function myself
+// software records audio to write this function oh my own, 
+// but it works and is open source so here we are
 function bufferToWav(abuffer) {
   let numOfChan = abuffer.numberOfChannels,
     length = abuffer.length * numOfChan * 2 + 44,

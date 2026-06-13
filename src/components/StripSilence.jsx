@@ -1,20 +1,23 @@
 import { useState, useEffect } from 'react';
-import { Text } from '@mantine/core';
+import { Download } from 'lucide-react';
+import { Text, Button } from '@mantine/core';
 
-export default function BPMDetector() {
+export default function StripSilence() {
     const [isDragging, setIsDragging] = useState(false);
-    const [detectedBPM, setDetectedBPM] = useState("Waiting for file...");
+    const [message, setMessage] = useState("Waiting for file...");
+    const [downloadUrl, setDownloadUrl] = useState(null);
 
     // listen for results from offscreeen
     useEffect(() => {
-        const handleMessage = (message) => {
-            console.log('BPMDetector received message:', message);
-            if (message.target === 'popup-ui' && message.results) {
-                console.log('Received analysis results:', message.results);
-                setDetectedBPM(`${message.results.bpm} BPM`);
-            } else if (message.error) {
-                console.error('Analysis error:', message.error);
-                setDetectedBPM('Error analyzing file');
+        const handleMessage = (msg) => {
+            console.log('Strip Silence received message:', msg);
+            if (msg.target === 'strip-silence' && msg.results) {
+                console.log('Received analysis results:');
+                setDownloadUrl(msg.results.downloadUrl);
+                setMessage(`Stripped silence from audio file`);
+            } else if (msg.error) {
+                console.error('Analysis error:', msg.error);
+                setMessage('Error analyzing file');
             }
         };
         chrome.runtime.onMessage.addListener(handleMessage);
@@ -31,30 +34,23 @@ export default function BPMDetector() {
         // check that uploaded file is a supported audio file type
         const allowed = ['audio/mpeg', 'audio/wav', 'audio/wave'];
         if (!allowed.includes(file.type)) {
-            setDetectedBPM('Error: only MP3 and WAV files are supported');
+            setMessage('Error: only MP3 and WAV files are supported');
             return;
         }
 
         console.log('File dropped:', file.name, 'Size:', file.size);
-        setDetectedBPM("Analyzing...");
+        setMessage("Analyzing...");
 
         const reader = new FileReader();
         reader.onerror = () => {
             console.error('FileReader error:', reader.error);
-            setDetectedBPM('Error reading file');
+            setMessage('Error reading file');
         };
         reader.onload = async (e) => {
             try {
                 // fetch raw audio data
                 const dataUrl = e.target.result;
                 console.log('File converted to DataURL, size:', dataUrl.length);
-
-                if (!chrome.offscreen) {
-                    console.error('chrome.offscreen not available');
-                    setDetectedBPM('Error: offscreen API not available');
-                    return;
-                }
-
                 const hasDoc = await chrome.offscreen.hasDocument();
                 console.log('Offscreen document exists:', hasDoc);
 
@@ -65,32 +61,30 @@ export default function BPMDetector() {
                         await chrome.offscreen.createDocument({
                             url: chrome.runtime.getURL('offscreen.html'),
                             reasons: ['AUDIO_PLAYBACK'],
-                            justification: 'Analyze audio file for BPM'
+                            justification: 'Analyze audio file to remove silence'
                         });
+                        await new Promise(resolve => setTimeout(resolve, 200));
                         console.log('Offscreen document created successfully');
                     } catch (createErr) {
                         console.error('Failed to create offscreen document:', createErr);
-                        setDetectedBPM('Error: Failed to create analyzer');
+                        setMessage('Error: Failed to create analyzer');
                         return;
                     }
                 }
-
                 // send data to background
                 console.log('Sending audio data to background for relay...');
                 try {
                     await chrome.runtime.sendMessage({
-                        target: 'offscreen-bpm-analyzer',
+                        target: 'offscreen-strip-silence',
                         data: { dataUrl }
                     });
                     console.log('Message sent successfully');
                 } catch (err) {
                     console.error('Failed to send message:', err);
-                    setDetectedBPM('Error: Could not start analysis');
+                    setMessage('Error: Could not start analysis');
                 }
-
             } catch (error) {
                 console.error('Error setting up offscreen:', error);
-                setDetectedBPM('Error setting up analyzer');
             }
         };
         reader.readAsDataURL(file);
@@ -98,9 +92,18 @@ export default function BPMDetector() {
 
     return (
         <>
-            <div style={{ padding: '10px' }}>
-                <Text><strong>BPM:</strong> {detectedBPM}</Text>
-            </div>
+            {downloadUrl && (
+                <Button 
+                    variant="outline" 
+                    component="a" 
+                    href={downloadUrl} 
+                    download="stripped.wav" 
+                    leftSection={<Download size={18} />}
+                    mb = "sm"
+                >
+                    Download .WAV
+                </Button>
+            )}
             <div
                 onDrop={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
