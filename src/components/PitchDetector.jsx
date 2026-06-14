@@ -94,7 +94,7 @@ export default function PitchDetectorComponent() {
     };
 
     return (
-    <div style={{ padding: '10px' }}>
+    <div style={{ padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
       <Group mb="md">
         {!isRecording ? (
           <Button leftSection={<Mic size={18} />} color="red" onClick={startCapture}>
