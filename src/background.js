@@ -19,7 +19,7 @@ chrome.runtime.onConnect.addListener((port) => {
 
 // relay messages between UI and offscreen
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.target === 'offscreen-bpm-analyzer' || message.target === 'offscreen-strip-silence') {
+    if (message.target === 'offscreen-bpm-detector' || message.target === 'offscreen-strip-silence') {
         if (offscreenPort) {
             offscreenPort.postMessage(message);
         } else {

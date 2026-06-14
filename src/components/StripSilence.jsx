@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Download } from 'lucide-react';
 import { Text, Button } from '@mantine/core';
+import '@mantine/dropzone/styles.css';
+import { Dropzone } from '@mantine/dropzone';
+import { IconCloudUpload } from '@tabler/icons-react';
 
 export default function StripSilence() {
     const [isDragging, setIsDragging] = useState(false);
@@ -104,19 +107,18 @@ export default function StripSilence() {
                     Download .WAV
                 </Button>
             )}
-            <div
-                onDrop={handleDrop}
-                onDragOver={(e) => e.preventDefault()}
-                onDragEnter={() => setIsDragging(true)}
-                onDragLeave={() => setIsDragging(false)}
-                style={{
-                    border: "2px dashed #aaa",
-                    padding: "40px",
-                    backgroundColor: isDragging ? "#ccc" : "#fff"
-                }}
+            <Dropzone
+                onDrop={(files) => handleDrop({ dataTransfer: { files }, preventDefault: () => {} })}
+                accept={['audio/mpeg', 'audio/wav', 'audio/wave']}
+                onReject={() => setDetectedBPM('Error: only MP3 and WAV files are supported')}
+                style={{ backgroundColor: 'white' }}
+                mb = "sm"
             >
-                Drag & drop here
-            </div>
+                <div style={{ textAlign: 'center' }}>
+                    <Dropzone.Idle><IconCloudUpload size={40} color="gray" /></Dropzone.Idle>
+                    <Text ta="center" c="dimmed">Drag & drop here</Text>
+                </div>
+            </Dropzone>
         </>
     );
 }

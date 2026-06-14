@@ -4,20 +4,20 @@ import toWav from 'audiobuffer-to-wav';
 // connect to background
 const backgroundPort = chrome.runtime.connect({ name: 'offscreen-port' });
 
-// BPM ANALYZER CODE
-let bpmAnalyzerPromise = null;
+// BPM detector CODE
+let bpmDetectorPromise = null;
 
-// initialize bpm analyzer
-async function initBPMAnalyzer() {
-    if (bpmAnalyzerPromise) return bpmAnalyzerPromise;
-    bpmAnalyzerPromise = import('web-audio-beat-detector').then(m => m);
-    return bpmAnalyzerPromise;
+// initialize bpm detector
+async function initBPMDetector() {
+    if (bpmDetectorPromise) return bpmDetectorPromise;
+    bpmDetectorPromise = import('web-audio-beat-detector').then(m => m);
+    return bpmDetectorPromise;
 }
 
 // analyze audio and return BPM
 async function analyzeAudio(dataUrl) {
     try {
-        const { analyze } = await initBPMAnalyzer();
+        const { analyze } = await initBPMDetector();
 
         console.log('Fetching audio from dataUrl...');
         const response = await fetch(dataUrl);
@@ -44,7 +44,7 @@ async function analyzeAudio(dataUrl) {
 backgroundPort.onMessage.addListener((message) => {
     console.log('OFFSCREEN RECEIVED PORT MESSAGE:', message.target);
     
-    if (message.target === 'offscreen-bpm-analyzer') {
+    if (message.target === 'offscreen-bpm-detector') {
         analyzeAudio(message.data.dataUrl).then(results => {
             chrome.runtime.sendMessage({ target: 'popup-ui', results });
         });

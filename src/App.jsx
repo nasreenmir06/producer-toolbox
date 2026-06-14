@@ -41,8 +41,7 @@ function App() {
     browserAudioRecorder: true,
     tempoTapper: true,
     centsCalculator: true,
-    BPMAnalyzer: true,
-    camelotWheel: true,
+    BPMDetector: true,
     stripSilence: true,
     settings: true
   })
@@ -66,15 +65,7 @@ function App() {
   return (
     <>
       <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
         <Title order={1}>Producer Toolbox</Title>
-        <Button variant="light" onClick={() => setCount((c) => c + 1)} mt="md">
-          Count is {count}
-        </Button>
       </section>
 
       <section id="next-steps" style={{ marginTop: '20px' }}>
@@ -85,8 +76,7 @@ function App() {
             {tabsVisible.browserAudioRecorder && <Tabs.Tab value="browserAudioRecorder">Record Browser Audio</Tabs.Tab>}
             {tabsVisible.tempoTapper && <Tabs.Tab value="tempoTapper">Tempo Tapper</Tabs.Tab>}
             {tabsVisible.centsCalculator && <Tabs.Tab value="centsCalculator">Cents Calculator</Tabs.Tab>}
-            {tabsVisible.BPMAnalyzer && <Tabs.Tab value="BPMAnalyzer">BPM Analyzer</Tabs.Tab>}
-            {tabsVisible.camelotWheel && <Tabs.Tab value="camelotWheel">Camelot Wheel</Tabs.Tab>}
+            {tabsVisible.BPMDetector && <Tabs.Tab value="BPMDetector">BPM Detector</Tabs.Tab>}
             {tabsVisible.stripSilence && <Tabs.Tab value="stripSilence">Strip Silence</Tabs.Tab>}
             {tabsVisible.settings && <Tabs.Tab value="settings">Settings</Tabs.Tab>}
           </Tabs.List>
@@ -112,13 +102,9 @@ function App() {
             <CentsCalculator/>
           </ToolPanel>
 
-          <ToolPanel value="BPMAnalyzer" title="BPM Analyzer">
+          <ToolPanel value="BPMDetector" title="BPM Detector">
             <BPMDetector/>
             <Text size="sm">Find the BPM of an uploaded file</Text>
-          </ToolPanel>
-
-          <ToolPanel value="camelotWheel" title="Camelot Wheel">
-            <Text size="sm">See the camelot wheel</Text>
           </ToolPanel>
 
           <ToolPanel value="stripSilence" title="Strip Silence">
@@ -132,8 +118,7 @@ function App() {
             <TabCheckbox label="Show Browser Audio Recorder" value="browserAudioRecorder" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
             <TabCheckbox label="Show Tempo Tapper" value="tempoTapper" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
             <TabCheckbox label="Show Cents Calculator" value="centsCalculator" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
-            <TabCheckbox label="Show BPM Analyzer" value="BPMAnalyzer" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
-            <TabCheckbox label="Show Camelot Wheel" value="camelotWheel" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
+            <TabCheckbox label="Show BPM Detector" value="BPMDetector" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
             <TabCheckbox label="Show Strip Silence" value="stripSilence" tabsVisible={tabsVisible} setTabsVisible={setTabsVisible}></TabCheckbox>
           </ToolPanel>
         </Tabs>

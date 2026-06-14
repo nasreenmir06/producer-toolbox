@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Text } from '@mantine/core';
+import '@mantine/dropzone/styles.css';
+import { Dropzone } from '@mantine/dropzone';
+import { IconCloudUpload } from '@tabler/icons-react';
 
 export default function BPMDetector() {
     const [isDragging, setIsDragging] = useState(false);
@@ -70,7 +73,7 @@ export default function BPMDetector() {
                         console.log('Offscreen document created successfully');
                     } catch (createErr) {
                         console.error('Failed to create offscreen document:', createErr);
-                        setDetectedBPM('Error: Failed to create analyzer');
+                        setDetectedBPM('Error: Failed to create detector');
                         return;
                     }
                 }
@@ -79,41 +82,42 @@ export default function BPMDetector() {
                 console.log('Sending audio data to background for relay...');
                 try {
                     await chrome.runtime.sendMessage({
-                        target: 'offscreen-bpm-analyzer',
+                        target: 'offscreen-bpm-detector',
                         data: { dataUrl }
                     });
                     console.log('Message sent successfully');
                 } catch (err) {
-                    console.error('Failed to send message:', err);
-                    setDetectedBPM('Error: Could not start analysis');
+                    // ignore no response errors
+                    if (!err.message.includes('message channel closed') && !err.message.includes('no tab')) {
+                        setDetectedBPM('Error: Could not start analysis');
+                    }
                 }
 
             } catch (error) {
                 console.error('Error setting up offscreen:', error);
-                setDetectedBPM('Error setting up analyzer');
+                setDetectedBPM('Error setting up detector');
             }
         };
         reader.readAsDataURL(file);
     };
 
     return (
-        <>
-            <div style={{ padding: '10px' }}>
-                <Text><strong>BPM:</strong> {detectedBPM}</Text>
+    <>
+        <div style={{ padding: '10px' }}>
+            <Text><strong>BPM:</strong> {detectedBPM}</Text>
+        </div>
+        <Dropzone
+            onDrop={(files) => handleDrop({ dataTransfer: { files }, preventDefault: () => {} })}
+            accept={['audio/mpeg', 'audio/wav', 'audio/wave']}
+            onReject={() => setDetectedBPM('Error: only MP3 and WAV files are supported')}
+            style={{ backgroundColor: 'white' }}
+            mb = "sm"
+        >
+            <div style={{ textAlign: 'center' }}>
+                <Dropzone.Idle><IconCloudUpload size={40} color="gray" /></Dropzone.Idle>
+                <Text ta="center" c="dimmed">Drag & drop here</Text>
             </div>
-            <div
-                onDrop={handleDrop}
-                onDragOver={(e) => e.preventDefault()}
-                onDragEnter={() => setIsDragging(true)}
-                onDragLeave={() => setIsDragging(false)}
-                style={{
-                    border: "2px dashed #aaa",
-                    padding: "40px",
-                    backgroundColor: isDragging ? "#ccc" : "#fff"
-                }}
-            >
-                Drag & drop here
-            </div>
-        </>
+        </Dropzone>
+    </>
     );
 }
