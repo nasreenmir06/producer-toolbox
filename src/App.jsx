@@ -135,6 +135,9 @@ function App() {
               <Text size="sm" fw={500} ta="center">More to come!</Text>
             </Stack>
           </Card>
+          <Text size="xs" c="dimmed" ta="center" mt="xs"> 
+            Please email nasreenmir06@gmail.com for any bug reports, feedback, or suggestions!
+          </Text>
         </div>
       )}
 

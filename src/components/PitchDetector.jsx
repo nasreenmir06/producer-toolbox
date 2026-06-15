@@ -110,7 +110,7 @@ export default function PitchDetectorComponent() {
         {pitchData.note ? `${pitchData.note} (${pitchData.hz} Hz)` : "Waiting for audio..."}
       </Text>
 
-      {isRecording && <Badge color="red" variant="dot" mb="sm">Recording High-Res Audio...</Badge>}
+      {isRecording && <Badge color="red" variant="dot" mb="sm">Recording Audio...</Badge>}
     </div>
   );
 }

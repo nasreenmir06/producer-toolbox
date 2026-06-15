@@ -102,22 +102,28 @@ export default function BPMDetector() {
     };
 
     return (
-    <>
-        <div style={{ padding: '10px' }}>
-            <Text><strong>BPM:</strong> {detectedBPM}</Text>
-        </div>
+    <div style={{ 
+        padding: '10px', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        height: '100%',
+        gap: '20px' // spacing between the text and dropzone
+    }}>
+        <Text><strong>BPM:</strong> {detectedBPM}</Text>
+
         <Dropzone
             onDrop={(files) => handleDrop({ dataTransfer: { files }, preventDefault: () => {} })}
             accept={['audio/mpeg', 'audio/wav', 'audio/wave']}
             onReject={() => setDetectedBPM('Error: only MP3 and WAV files are supported')}
-            style={{ backgroundColor: 'white' }}
-            mb = "sm"
+            style={{ backgroundColor: 'white', width: '100%', maxWidth: '400px' }}
         >
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ textAlign: 'center', padding: '20px' }}>
                 <Dropzone.Idle><IconCloudUpload size={40} color="gray" /></Dropzone.Idle>
                 <Text ta="center" c="dimmed">Drag & drop here</Text>
             </div>
         </Dropzone>
-    </>
-    );
+    </div>
+);
 }

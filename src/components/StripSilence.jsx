@@ -94,7 +94,17 @@ export default function StripSilence() {
     };
 
     return (
-        <>
+        <div style={{ 
+            padding: '10px', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            height: '100%',
+            gap: '15px' 
+        }}>
+            <Text ta="center"><strong>Status:</strong> {message}</Text>
+
             {downloadUrl && (
                 <Button 
                     variant="outline" 
@@ -102,23 +112,22 @@ export default function StripSilence() {
                     href={downloadUrl} 
                     download="stripped.wav" 
                     leftSection={<Download size={18} />}
-                    mb = "sm"
                 >
                     Download .WAV
                 </Button>
             )}
+
             <Dropzone
                 onDrop={(files) => handleDrop({ dataTransfer: { files }, preventDefault: () => {} })}
                 accept={['audio/mpeg', 'audio/wav', 'audio/wave']}
-                onReject={() => setDetectedBPM('Error: only MP3 and WAV files are supported')}
-                style={{ backgroundColor: 'white' }}
-                mb = "sm"
+                onReject={() => setMessage('Error: only MP3 and WAV files are supported')} 
+                style={{ backgroundColor: 'white', width: '100%', maxWidth: '400px' }}
             >
-                <div style={{ textAlign: 'center' }}>
+                <div style={{ textAlign: 'center', padding: '20px' }}>
                     <Dropzone.Idle><IconCloudUpload size={40} color="gray" /></Dropzone.Idle>
                     <Text ta="center" c="dimmed">Drag & drop here</Text>
                 </div>
             </Dropzone>
-        </>
+        </div>
     );
 }
