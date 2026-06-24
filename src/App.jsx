@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Checkbox, Title, Text, ActionIcon, Modal, SimpleGrid, Card, Stack } from '@mantine/core'
+import { Checkbox, Title, Text, ActionIcon, Modal, SimpleGrid, Card, Stack, Switch, Group, useMantineColorScheme } from '@mantine/core'
 import AudioRecorder from './components/AudioRecorder';
 import PitchDetectorComponent from './components/PitchDetector';
 import TempoTapper from './components/TempoTapper';
 import CentsCalculator from './components/CentsCalculator';
 import BPMDetector from './components/BPMDetector';
 import StripSilence from './components/StripSilence';
-import { IconSettings, IconWaveSine, IconSparkles, IconMicrophone, IconMusic, IconCalculator, IconActivityHeartbeat, IconVolume3, IconCut } from '@tabler/icons-react'
+import { IconSettings, IconWaveSine, IconSparkles, IconMicrophone, IconMusic, IconCalculator, IconActivityHeartbeat, IconVolume3, IconCut, IconSun, IconMoon } from '@tabler/icons-react'
 import './App.css'
 
 // COMPONENT DEFINITIONS
@@ -52,6 +52,7 @@ const TOOLS = [
 
 function App() {
   const [activeTool, setActiveTool] = useState(null);
+  const {colorScheme, toggleColorScheme } = useMantineColorScheme();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [tabsVisible, setTabsVisible] = useState({
     pitchDetector: true,
@@ -157,6 +158,16 @@ function App() {
             setTabsVisible={setTabsVisible}
           />
         ))}
+        <Group justify="space-between" mb="md">
+        <Group gap="xs">
+          {colorScheme === 'dark' ? <IconMoon size={16} /> : <IconSun size={16} />}
+          <Text size="sm">{colorScheme === 'dark' ? 'Dark mode' : 'Light mode'}</Text>
+        </Group>
+        <Switch
+          checked={colorScheme === 'dark'}
+          onChange={toggleColorScheme}
+        />
+      </Group>
       </Modal>
     </div>
   )

@@ -90,7 +90,7 @@ export default function PitchDetectorComponent() {
             audioContextRef.current = null;
         }
         setIsRecording(false);
-        setCurrentNote(null);
+        setPitchData({ note: null, hz: null });
     };
 
     return (

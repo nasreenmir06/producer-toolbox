@@ -117,7 +117,7 @@ export default function BPMDetector() {
             onDrop={(files) => handleDrop({ dataTransfer: { files }, preventDefault: () => {} })}
             accept={['audio/mpeg', 'audio/wav', 'audio/wave']}
             onReject={() => setDetectedBPM('Error: only MP3 and WAV files are supported')}
-            style={{ backgroundColor: 'white', width: '100%', maxWidth: '400px' }}
+            style={{ width: '100%', maxWidth: '400px' }}
         >
             <div style={{ textAlign: 'center', padding: '20px' }}>
                 <Dropzone.Idle><IconCloudUpload size={40} color="gray" /></Dropzone.Idle>

@@ -96,7 +96,7 @@ export default function CentsCalculator() {
 
         return (
             <Stack my="md" align="center"> 
-                <Text size="lg" fw={600} color="green">
+                <Text size="lg" fw={600} c = "green">
                     {calculationDetails}{cents} cents
                 </Text>
             </Stack>
@@ -182,7 +182,7 @@ export default function CentsCalculator() {
             clampBehavior="strict"
             error={targetOctaveError}
         />
-        <Button color="blue" onClick={noteCalculator}>
+        <Button c = "blue" onClick={noteCalculator}>
             Calculate
         </Button>
         {/* show here only if note calculator was clicked */}
@@ -212,7 +212,7 @@ export default function CentsCalculator() {
             allowDecimal={true}
             allowNegative={false}
         />
-        <Button color="blue" onClick={hzCalculator}>
+        <Button c = "blue" onClick={hzCalculator}>
             Calculate
         </Button>
       </Stack>

@@ -29,7 +29,12 @@ export default function TempoTapper() {
     return (
     <div style={{ padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
       <Group mb="md"> 
-        <Button color="red" onClick={recordTaps}>
+        <Button 
+            color="red" 
+            onClick={recordTaps}
+            size="xl"
+            style={{ fontSize: '1.3rem', padding: '20px 40px' }}
+            >
             Tap Me!
         </Button>
       </Group>
